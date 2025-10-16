@@ -22,43 +22,19 @@ def get_neighbors(current_node):
 
     return neighbors
 
-def bfs(start, goal):
-    queue = [start]
-    visited = {start}
-    parent = {}
-
-    while queue:
-        current_node = queue.pop(0)
-
-        if current_node == goal:
-            break # goal found
-
-        for neighbor in get_neighbors(current_node):
-            if neighbor not in visited:
-                visited.add(neighbor)
-                parent[neighbor] = current_node
-                queue.append(neighbor)
-
-    if goal not in parent:
-        return [start], len(visited)  # no path found
-
-    # reconstruct path
-    search_path = []
-    current_node = goal
-    while current_node in parent:
-        search_path.append(current_node)
-        current_node = parent[current_node]
-    search_path.append(start)
-    search_path.reverse()
-
-    return search_path, len(visited)
-
 if __name__ == '__main__':
-    start_node = (0, 0)
+    from bfs import bfs
+    from bbfs import bidirectional_bfs
+
+    start_node = (1, 2) # row, column
     goal_node = (4, 4)
 
     path, length = bfs(start_node, goal_node) # bfs function returns the path and the length of the path
 
-    print("Path:", path)
-    print("Visited nodes:", length)
+    print("BFS Path:", path)
+    print("BFS Visited nodes:", length)
 
+    path, length = bidirectional_bfs(start_node, goal_node)  # bidirectional bfs function returns the combined path and the length of the path
+
+    print("Bidirectional BFS Path:", path)
+    print("Bidirectional BFS Visited nodes:", length)
